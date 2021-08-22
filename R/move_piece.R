@@ -32,5 +32,5 @@ move_piece <- function(board, start_square, end_square) {
     # Place piece into new square
     board[piece_type, ] <- bitwOr(board[piece_type], end_square)
 
-    return(board)
+    return(list(board = board, piece_type = piece_type))
 }

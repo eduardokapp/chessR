@@ -4,15 +4,28 @@ This is a Chess Engine written entirely in the R language, for study purposes on
 
 # TODOs
 
-- Write Search and Evaluate schemes
-- Write every piece possible moves calculator
- - King
- - Queen (done)
- - Bishop (done)
- - Rook (done)
- - Pawn
- - Knight
+## Basics
+[x] Represent board with bitboards
+[x] Generate bitboard given a square
+[x] Return a square given a bitboard
+[x] Print board given board state
 
-- Write a way to select pieces
-- Write attack/block set determination
 
+## Attack Set Functions
+[x] Rook
+[x] Bishop
+[x] Knight
+[x] Queen
+[ ] King
+[ ] Pawn
+
+## Game Logic
+[ ] Function to Validate a move
+[ ] Function that updates game status
+
+## Advanced
+[ ] Search and Evaluate Methods
+
+## Package Misc
+[ ] Write tests
+[ ] Improve Docs

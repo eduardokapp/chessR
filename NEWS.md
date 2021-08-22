@@ -11,3 +11,8 @@
 * Combined rook and bishop sets to define the Queen attack set calculator
 * print_board function now also prints a single bitboard
 * print_board function is prettier, returning ranks and files
+
+# kappchess 0.1.2
+
+* Added a knight attack set calculator
+* Making print_board also return rank and files of individual bitboards

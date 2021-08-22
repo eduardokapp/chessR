@@ -9,8 +9,11 @@
 #' @author Eduardo Kapp
 print_board <- function(board, single_bitboard = FALSE) {
     if (single_bitboard) {
-        tmp <- matrix(data = board, nrow = 8, ncol = 8, byrow = TRUE)
-        return(tmp[, 8:1])
+        out <- matrix(data = board, nrow = 8, ncol = 8, byrow = TRUE)
+        out <- out[, 8:1]
+        rownames(out) <- 8:1
+        colnames(out) <- letters[1:8]
+        return(out)
     }
 
     # Differentiate pieces
