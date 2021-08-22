@@ -4,9 +4,11 @@
 #' @param board A 12 by 64 binary matrix representing the game current status.
 #' @param whites If TRUE, the piece is a white piece, else blacks.
 #' @param square A character representing a square ("a1" to "h8").
+#' @param queen Internal parameter to be used when calculating queen moves.
+#' If TRUE, ignores the fact that no rook exists in that position.
 #' @returns A bitboard with all attacked squares.
 #' @author Eduardo Kapp
-find_rook_attacks <- function(board, whites, square) {
+find_rook_attacks <- function(board, whites, square, queen = FALSE) {
     # First, find the rook bitboard according to the side
     if (whites)
         rook_board <- board[2, ]
@@ -15,8 +17,12 @@ find_rook_attacks <- function(board, whites, square) {
 
     # Select the rook which is in the desired square using AND operator
     tmp_rook_board <- bitwAnd(rook_board, square_to_bits(square))
-    if (!any(as.logical(tmp_rook_board)))
-        return(NA)
+    if (!any(as.logical(tmp_rook_board))) {
+        if (queen)
+            tmp_rook_board <- square_to_bits(square)
+        else
+            return(NA)
+    }
 
     # Determine all pseudo-legal moves for that rook
     # convert the rook bitboard

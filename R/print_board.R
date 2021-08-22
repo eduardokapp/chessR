@@ -24,5 +24,8 @@ print_board <- function(board, single_bitboard = FALSE) {
 
     # Reshape 1x64 to 8x8
     out <- matrix(board, nrow = 8, ncol = 8, byrow = TRUE)
-    return(out[, 8:1])
+    out <- out[, 8:1]
+    rownames(out) <- 8:1
+    colnames(out) <- letters[1:8]
+    return(out)
 }
