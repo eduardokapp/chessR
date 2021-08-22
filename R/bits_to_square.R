@@ -5,7 +5,7 @@
 #' @param split If true, also returns the square's rank and file.
 #' @returns A list with the square associated with the bitboard.
 #' @author Eduardo Kapp
-which_square <- function(bitboard, split = FALSE) {
+bits_to_square <- function(bitboard, split = FALSE) {
     if (sum(bitboard) != 1)
         return(NA)
     squares <- c(
