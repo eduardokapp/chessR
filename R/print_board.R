@@ -13,5 +13,6 @@ print_board <- function(board) {
     board <- vapply(board, lookup_piece_name, FUN.VALUE = "char")
 
     # Reshape 1x64 to 8x8
-    return(matrix(board, nrow = 8, ncol = 8, byrow = TRUE))
+    out <- matrix(board, nrow = 8, ncol = 8, byrow = TRUE)
+    return(out[, 8:1])
 }
