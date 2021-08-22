@@ -4,12 +4,22 @@
 \alias{print_board}
 \title{Print board to user}
 \usage{
-print_board(board)
+print_board(board, single_bitboard = FALSE)
 }
 \arguments{
 \item{board}{A 12 by 64 numeric matrix.}
+
+\item{single_bitboard}{If TRUE, treats 'board' as if it is only a single
+board layer, which is a bitboard representing one of the 12 piece
+possible variations.}
+}
+\value{
+A friendly visualization of the board.
 }
 \description{
 Given a board matrix, convert it to a user-friendly 8x8 matrix
 with every slot represented with piece names.
+}
+\author{
+Eduardo Kapp
 }
