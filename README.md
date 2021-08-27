@@ -20,11 +20,12 @@ Any help is welcome.
 * [x] Bishop
 * [x] Knight
 * [x] Queen
-* [ ] King (considering castling)
+* [x] King
 * [ ] Pawn (considering en-passant)
 
 ## Game Logic
 * [ ] Function to Validate a move
+* [ ] Validate a castle move
 * [ ] Function that updates game status
 
 ## Advanced
