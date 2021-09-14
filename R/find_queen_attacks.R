@@ -4,9 +4,11 @@
 #' @param board A 12 by 64 binary matrix representing the game current status.
 #' @param whites If TRUE, the piece is a white piece, else blacks.
 #' @param square A character representing a square ("a1" to "h8").
+#' @param allies Bitboard with ally positions
+#' @param enemies Bitboard with enemy positions
 #' @returns A bitboard with all attacked squared by the Queen.
 #' @author Eduardo Kapp
-find_queen_attacks <- function(board, whites, square) {
+find_queen_attacks <- function(board, whites, square, allies, enemies) {
     # First, find the queen bitboard according to the side
     if (whites)
         queen_board <- board[5, ]
@@ -20,8 +22,8 @@ find_queen_attacks <- function(board, whites, square) {
     }
 
     legal_moves <- bitwOr(
-        find_bishop_attacks(board, whites, square, TRUE),
-        find_rook_attacks(board, whites, square, TRUE)
+        find_bishop_attacks(board, whites, square, allies, enemies, TRUE),
+        find_rook_attacks(board, whites, square, allies, enemies, TRUE)
     )
 
     return(legal_moves)

@@ -4,11 +4,20 @@
 #' @param board A 12 by 64 binary matrix representing the game current status.
 #' @param whites If TRUE, the piece is a white piece, else blacks.
 #' @param square A character representing a square ("a1" to "h8").
+#' @param allies Bitboard with ally positions
+#' @param enemies Bitboard with enemy positions
 #' @param queen Internal parameter to be used when calculating queen moves.
 #' If TRUE, ignores the fact that no rook exists in that position.
 #' @returns A bitboard with all attacked squares.
 #' @author Eduardo Kapp
-find_rook_attacks <- function(board, whites, square, queen = FALSE) {
+find_rook_attacks <- function(
+    board,
+    whites,
+    square,
+    allies,
+    enemies,
+    queen = FALSE
+) {
     # First, find the rook bitboard according to the side
     if (whites)
         rook_board <- board[2, ]
@@ -33,18 +42,11 @@ find_rook_attacks <- function(board, whites, square, queen = FALSE) {
 
     # Now we need to find any blocking pieces (including the rook itself!)
     # We'll start with ally pieces
-    if (whites) {
-        ally_pieces <- get_occupied_squares(board[1:6, ])
-        enemies <- get_occupied_squares(board[7:12, ])
-    } else {
-        ally_pieces <- get_occupied_squares(board[7:12, ])
-        enemies <- get_occupied_squares(board[1:6, ])
-    }
     enemies <- matrix(data = enemies, nrow = 8, ncol = 8)
 
     # Use Xor to find out all places where there are allies and attack moves
     # so we can exclude them
-    friendly_fire_moves <- bitwAnd(as.vector(moves), ally_pieces)
+    friendly_fire_moves <- bitwAnd(as.vector(moves), allies)
 
     # pseudo legal moves (not considering blocking paths)
     pl_moves <- bitwXor(as.vector(moves), friendly_fire_moves)

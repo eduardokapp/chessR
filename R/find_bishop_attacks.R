@@ -4,11 +4,20 @@
 #' @param board A 12 by 64 binary matrix representing the game current status.
 #' @param whites If TRUE, the piece is a white piece, else blacks.
 #' @param square A character representing a square ("a1" to "h8").
+#' @param allies Bitboard with ally positions
+#' @param enemies Bitboard with enemy positions
 #' @param queen Internal parameter to be used when calculating queen moves.
 #' If TRUE, ignores the fact that no bishop exists in that position.
 #' @returns A bitboard with all attacked squares.
 #' @author Eduardo Kapp
-find_bishop_attacks <- function(board, whites, square, queen = FALSE) {
+find_bishop_attacks <- function(
+    board,
+    whites,
+    square,
+    allies,
+    enemies,
+    queen = FALSE
+) {
     # First, find the bishop bitboard according to the side
     if (whites)
         bishop_board <- board[4, ]
@@ -31,14 +40,7 @@ find_bishop_attacks <- function(board, whites, square, queen = FALSE) {
 
     # Now we need to find any blocking pieces (including the bishop itself!)
     # We'll start with ally pieces
-    if (whites) {
-        ally_pieces <- get_occupied_squares(board[1:6, ])
-        enemies <- get_occupied_squares(board[7:12, ])
-    } else {
-        ally_pieces <- get_occupied_squares(board[7:12, ])
-        enemies <- get_occupied_squares(board[1:6, ])
-    }
-    ally_pieces <- matrix(data = ally_pieces, nrow = 8, ncol = 8)
+    allies <- matrix(data = allies, nrow = 8, ncol = 8)
     enemies <- matrix(data = enemies, nrow = 8, ncol = 8)
 
     # At last, we can define the longest non-zero paths on all four diagonals
@@ -50,7 +52,7 @@ find_bishop_attacks <- function(board, whites, square, queen = FALSE) {
     rank <- idx[1] + 1
     file <- idx[2] + 1
     while (all(c(rank, file) %in% (1:8))) {
-        if (ally_pieces[rank, file] == 1)
+        if (allies[rank, file] == 1)
             break
         legal_moves[rank, file] <- 1
         if (enemies[rank, file] == 1)
@@ -63,7 +65,7 @@ find_bishop_attacks <- function(board, whites, square, queen = FALSE) {
     rank <- idx[1] + 1
     file <- idx[2] - 1
     while (all(c(rank, file) %in% (1:8))) {
-        if (ally_pieces[rank, file] == 1)
+        if (allies[rank, file] == 1)
             break
         legal_moves[rank, file] <- 1
         if (enemies[rank, file] == 1)
@@ -76,7 +78,7 @@ find_bishop_attacks <- function(board, whites, square, queen = FALSE) {
     rank <- idx[1] - 1
     file <- idx[2] - 1
     while (all(c(rank, file) %in% (1:8))) {
-        if (ally_pieces[rank, file] == 1)
+        if (allies[rank, file] == 1)
             break
         legal_moves[rank, file] <- 1
         if (enemies[rank, file] == 1)
@@ -89,7 +91,7 @@ find_bishop_attacks <- function(board, whites, square, queen = FALSE) {
     rank <- idx[1] - 1
     file <- idx[2] + 1
     while (all(c(rank, file) %in% (1:8))) {
-        if (ally_pieces[rank, file] == 1)
+        if (allies[rank, file] == 1)
             break
         legal_moves[rank, file] <- 1
         if (enemies[rank, file] == 1)

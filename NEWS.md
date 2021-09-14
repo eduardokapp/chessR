@@ -16,3 +16,7 @@
 
 * Added a knight attack set calculator
 * Making print_board also return rank and files of individual bitboards
+* Added queen attack set calculator
+* Added pawn attack set calculator
+* Now attack set calculators receive ally and enemy bitboards as inputs to increase performance
+

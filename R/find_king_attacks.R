@@ -4,9 +4,10 @@
 #' @param board A 12 by 64 binary matrix representing the game current status.
 #' @param whites If TRUE, the piece is a white piece, else blacks.
 #' @param square A character representing a square ("a1" to "h8").
+#' @param allies Bitboard with ally pieces
 #' @returns A bitboard with all attacked squares by the king.
 #' @author Eduardo Kapp
-find_king_attacks <- function(board, whites, square) {
+find_king_attacks <- function(board, whites, square, allies) {
     # First, find the king bitboard according to the side
     if (whites)
         king_board <- board[6, ]
@@ -24,13 +25,6 @@ find_king_attacks <- function(board, whites, square) {
     idx <- which(moves == 1, arr.ind = TRUE)
     rank <- idx[1]
     file <- idx[2]
-
-    # Obtain ally positions
-    if (whites) {
-        ally_pieces <- get_occupied_squares(board[1:6, ])
-    } else {
-        ally_pieces <- get_occupied_squares(board[7:12, ])
-    }
 
     # A king can go any direction. That would be all combinations
     # between -1, 0, and 1 in ranks and files.
@@ -52,11 +46,11 @@ find_king_attacks <- function(board, whites, square) {
 
     # To derive legal moves, we need to Xor the pseudo-legal moves
     # with ally positions.
-    ally_pieces <- bitwAnd(ally_pieces, as.vector(pseudo_legal))
+    allies <- bitwAnd(allies, as.vector(pseudo_legal))
 
     # Now XOR result intersections with the possible moves
     # so that we only accept legal moves with no intersections
-    legal_moves <- bitwXor(as.vector(pseudo_legal), ally_pieces)
+    legal_moves <- bitwXor(as.vector(pseudo_legal), allies)
 
     # Castling is considered as a special function, treated elsewhere
     return(legal_moves)

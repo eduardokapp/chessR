@@ -21,11 +21,13 @@ Any help is welcome.
 * [x] Knight
 * [x] Queen
 * [x] King
-* [ ] Pawn (considering en-passant)
+* [x] Pawn
 
 ## Game Logic
 * [ ] Function to Validate a move
 * [ ] Validate a castle move
+* [ ] Validate an en-passant
+* [ ] Define game status object
 * [ ] Function that updates game status
 
 ## Advanced

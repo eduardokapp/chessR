@@ -4,9 +4,10 @@
 #' @param board A 12 by 64 binary matrix representing the game current status.
 #' @param whites If TRUE, the piece is a white piece, else blacks.
 #' @param square A character representing a square ("a1" to "h8").
+#' @param allies Bitboard with ally positions
 #' @returns A bitboard with all attacked squared by the Knight.
 #' @author Eduardo Kapp
-find_knight_attacks <- function(board, whites, square) {
+find_knight_attacks <- function(board, whites, square, allies) {
     # First, find the queen bitboard according to the side
     if (whites)
         knight_board <- board[3, ]
@@ -22,12 +23,6 @@ find_knight_attacks <- function(board, whites, square) {
     idx <- which(moves == 1, arr.ind = TRUE)
     rank <- idx[1]
     file <- idx[2]
-
-    if (whites) {
-        ally_pieces <- get_occupied_squares(board[1:6, ])
-    } else {
-        ally_pieces <- get_occupied_squares(board[7:12, ])
-    }
 
     # Note that a Knight can't be blocked.
     # So we simply need to find all squares it can go to, given its
@@ -54,10 +49,10 @@ find_knight_attacks <- function(board, whites, square) {
 
     # Apply AND to ally pieces with the possible legal moves so we find where
     # are the intersections
-    ally_pieces <- bitwAnd(ally_pieces, as.vector(legal_moves))
+    allies <- bitwAnd(allies, as.vector(legal_moves))
 
     # Now XOR result intersections with the possible moves
     # so that we only accept legal moves with no intersections
-    legal_moves <- bitwXor(as.vector(legal_moves), ally_pieces)
+    legal_moves <- bitwXor(as.vector(legal_moves), allies)
     return(legal_moves)
 }
